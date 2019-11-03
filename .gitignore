@@ -1,3 +1,6 @@
 /.idea
 /out
 */target
+crawler/target
+project/target
+/target
