@@ -1,6 +1,6 @@
 package crawler
 
-import crawler.parsing.OkButtonParser
+import crawler.parsing.NodeParser
 import org.scalatest.{FlatSpec, Matchers}
 
 class CrawlerTest
@@ -9,7 +9,7 @@ class CrawlerTest
 
   it should "not find the ok button" in {
     // arrange
-    val okButtonParser: OkButtonParser = new OkButtonParser()
+    val okButtonParser: NodeParser = new NodeParser()
     val crawler: Crawler = new Crawler(okButtonParser)
 
     // act / assert
@@ -20,7 +20,7 @@ class CrawlerTest
 
   it should "find the ok button" in {
     // arrange
-    val okButtonParser: OkButtonParser = new OkButtonParser()
+    val okButtonParser: NodeParser = new NodeParser()
     val crawler: Crawler = new Crawler(okButtonParser)
 
     // act
@@ -33,7 +33,7 @@ class CrawlerTest
 
   it should "find the ok button - case 2" in {
     // arrange
-    val okButtonParser: OkButtonParser = new OkButtonParser()
+    val okButtonParser: NodeParser = new NodeParser()
     val crawler: Crawler = new Crawler(okButtonParser)
 
     // act
@@ -46,7 +46,7 @@ class CrawlerTest
 
   it should "find the ok button - case 3" in {
     // arrange
-    val okButtonParser: OkButtonParser = new OkButtonParser()
+    val okButtonParser: NodeParser = new NodeParser()
     val crawler: Crawler = new Crawler(okButtonParser)
 
     // act
@@ -59,7 +59,7 @@ class CrawlerTest
 
   it should "find the ok button - case 4" in {
     // arrange
-    val okButtonParser: OkButtonParser = new OkButtonParser()
+    val okButtonParser: NodeParser = new NodeParser()
     val crawler: Crawler = new Crawler(okButtonParser)
 
     // act

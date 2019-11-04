@@ -6,6 +6,8 @@ version := "0.1"
 
 scalaVersion := "2.12.10"
 
+mainClass := Some("crawler.Main")
+
 lazy val settings = Seq(
   name := "AgileEngine.GuidoMarchini",
   startYear := Some(2019),
@@ -15,8 +17,7 @@ lazy val settings = Seq(
 lazy val dependencies = Seq(
   // test
   scalatest,
-  mockito,
-  
+
   // XML
   scala_xml
 )

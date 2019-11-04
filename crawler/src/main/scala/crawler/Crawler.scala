@@ -1,26 +1,29 @@
 package crawler
 
-import crawler.parsing.{NodeWithParents, OkButtonParser}
+import crawler.parsing.{NodeParser, NodeWithParents}
 import utils.FileUtils
 
-class Crawler(okButtonParser: OkButtonParser) {
+class Crawler(okButtonParser: NodeParser) {
+  private final val standartOkButtonId = "make-everything-ok-button"
+
+  def findOkButtonByOriginalId(originalFilePath: String, secondaryFilePath: String, okButtonId: String): String = {
+    okButtonParser.findNodeById(fileAsString(originalFilePath), okButtonId) match {
+      case Some(originalButtonNode) =>
+        lookupButtonInNextHtml(secondaryFilePath, originalButtonNode)
+
+      case None =>
+        throw new RuntimeException("OK button not found in original file")
+    }
+  }
 
   /**
     * Finds the ok button from the original file, and then finds the best match from the second file.
     * Returns the path to the OK button
     */
   def findOkButton(originalFilePath: String, secondaryFilePath: String): String = {
-      originalOkButton(originalFilePath) match {
+    okButtonParser.findNodeById(fileAsString(originalFilePath), standartOkButtonId) match {
         case Some(originalButtonNode) =>
-          val bestMatch =
-          lookupOkButtonIn(originalButtonNode, secondaryFilePath).maxBy{ nodeWithParents =>
-            originalButtonNode.attributes.count {
-              case (attributeKey, attributeValue) =>
-                nodeWithParents.attributes.get(attributeKey).contains(attributeValue)
-            }
-          }
-
-          pathToString(bestMatch)
+          lookupButtonInNextHtml(secondaryFilePath, originalButtonNode)
 
         case None =>
           throw new RuntimeException("OK button not found in original file")
@@ -28,22 +31,24 @@ class Crawler(okButtonParser: OkButtonParser) {
   }
 
   /**
-    * Fetches the original ok button from the given file.
-    * @param originalFilePath
-    * @return
-    */
-  private def originalOkButton(originalFilePath: String): Option[NodeWithParents] = {
-    okButtonParser.findOkButton(fileAsString(originalFilePath))
-  }
-
-  /**
-    * Given the original ok button, fetches a similar button from the second file path.
-    * @param originalButtonNode
+    * Looks up the best match from the ok button in the second file
     * @param secondaryFilePath
+    * @param originalButtonNode
     * @return
     */
-  private def lookupOkButtonIn(originalButtonNode: NodeWithParents, secondaryFilePath: String): Seq[NodeWithParents] = {
-    okButtonParser.findSimilarButton(fileAsString(secondaryFilePath), originalButtonNode)
+  private def lookupButtonInNextHtml(secondaryFilePath: String, originalButtonNode: NodeWithParents) = {
+    val bestMatch =
+      okButtonParser.findSimilarNodes(
+        html = fileAsString(secondaryFilePath),
+        nodeToSearch = originalButtonNode
+      ).maxBy { nodeWithParents =>
+        originalButtonNode.attributes.count {
+          case (attributeKey, attributeValue) =>
+            nodeWithParents.attributes.get(attributeKey).contains(attributeValue)
+        }
+      }
+
+    pathToString(bestMatch)
   }
 
   private def fileAsString(path: String): String = {
@@ -52,9 +57,6 @@ class Crawler(okButtonParser: OkButtonParser) {
 
   /**
     * Makes the path to the given node by the form <tag> > [...]
-    *
-    * @param okButton
-    * @return
     */
   private def pathToString(okButton: NodeWithParents): String = {
     okButton.parents.mkString(" > ")
