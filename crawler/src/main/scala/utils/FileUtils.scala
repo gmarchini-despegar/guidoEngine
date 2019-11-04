@@ -1,10 +1,10 @@
-package crawler.utils
+package utils
 
 import scala.io.BufferedSource
 import scala.io.Source.fromInputStream
 
 /**
-  * Test utils for file reading.
+  * Utils for file reading.
   */
 object FileUtils {
 

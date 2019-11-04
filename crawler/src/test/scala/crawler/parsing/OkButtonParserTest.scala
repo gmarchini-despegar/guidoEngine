@@ -1,21 +1,33 @@
 package crawler.parsing
 
-import crawler.utils.FileUtils
 import org.scalatest.{FlatSpec, Matchers}
+import utils.FileUtils
 
 class OkButtonParserTest
   extends FlatSpec
     with Matchers {
 
-  it should "find the OK button" in {
-    val fileAsString: String = FileUtils.getResourceFileAsString("/html1.xml")
+  "find the ok button" should behave like {
+    it should "find the OK button" in {
+      // arrange
+      val fileAsString: String = FileUtils.getResourceFileAsString("/html-original.html")
 
-    new OkButtonParser().findOkButton(fileAsString) shouldBe 'defined
-  }
+      // act
+      val result = new OkButtonParser().findOkButton(fileAsString)
 
-  it should "not find the OK button" in {
-    val fileAsString: String = FileUtils.getResourceFileAsString("/html-noOkButton.xml")
+      // assert
+      result shouldBe 'defined
+    }
 
-    new OkButtonParser().findOkButton(fileAsString) shouldBe 'empty
+    it should "not find the OK button" in {
+      // arrange
+      val fileAsString: String = FileUtils.getResourceFileAsString("/html-noOkButton.html")
+
+      // act
+      val result = new OkButtonParser().findOkButton(fileAsString)
+
+      // assert
+      result shouldBe 'empty
+    }
   }
 }
