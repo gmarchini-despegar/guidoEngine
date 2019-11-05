@@ -3,11 +3,12 @@ package crawler
 import crawler.parsing.{NodeParser, NodeWithParents}
 import utils.FileUtils
 
-class Crawler(okButtonParser: NodeParser) {
+class Crawler(nodeParser: NodeParser,
+              fileUtils: FileUtils) {
   private final val standartOkButtonId = "make-everything-ok-button"
 
   def findOkButtonByOriginalId(originalFilePath: String, secondaryFilePath: String, okButtonId: String): String = {
-    okButtonParser.findNodeById(fileAsString(originalFilePath), okButtonId) match {
+    nodeParser.findNodeById(fileAsString(originalFilePath), okButtonId) match {
       case Some(originalButtonNode) =>
         lookupButtonInNextHtml(secondaryFilePath, originalButtonNode)
 
@@ -21,7 +22,7 @@ class Crawler(okButtonParser: NodeParser) {
     * Returns the path to the OK button
     */
   def findOkButton(originalFilePath: String, secondaryFilePath: String): String = {
-    okButtonParser.findNodeById(fileAsString(originalFilePath), standartOkButtonId) match {
+    nodeParser.findNodeById(fileAsString(originalFilePath), standartOkButtonId) match {
         case Some(originalButtonNode) =>
           lookupButtonInNextHtml(secondaryFilePath, originalButtonNode)
 
@@ -38,7 +39,7 @@ class Crawler(okButtonParser: NodeParser) {
     */
   private def lookupButtonInNextHtml(secondaryFilePath: String, originalButtonNode: NodeWithParents) = {
     val bestMatch =
-      okButtonParser.findSimilarNodes(
+      nodeParser.findSimilarNodes(
         html = fileAsString(secondaryFilePath),
         nodeToSearch = originalButtonNode
       ).maxBy { nodeWithParents =>
@@ -52,7 +53,7 @@ class Crawler(okButtonParser: NodeParser) {
   }
 
   private def fileAsString(path: String): String = {
-    FileUtils.getResourceFileAsString(path)
+    fileUtils.getResourceFileAsString(path)
   }
 
   /**

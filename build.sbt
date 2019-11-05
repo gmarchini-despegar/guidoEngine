@@ -6,12 +6,12 @@ version := "0.1"
 
 scalaVersion := "2.12.10"
 
-mainClass := Some("crawler.Main")
-
 lazy val settings = Seq(
   name := "AgileEngine.GuidoMarchini",
   startYear := Some(2019),
-  organization := "AgileEngine.recruiting"
+  organization := "AgileEngine.recruiting",
+  mainClass in assembly := Some("crawler.Main"),
+  assemblyJarName in assembly := "GMARCHINI-crawler.jar"
 )
 
 lazy val dependencies = Seq(
