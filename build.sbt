@@ -6,15 +6,7 @@ version := "0.1"
 
 scalaVersion := "2.12.10"
 
-lazy val settings = Seq(
-  name := "AgileEngine.GuidoMarchini",
-  startYear := Some(2019),
-  organization := "AgileEngine.recruiting",
-  mainClass in assembly := Some("crawler.Main"),
-  assemblyJarName in assembly := "GMARCHINI-crawler.jar"
-)
-
-lazy val dependencies = Seq(
+lazy val crawlerDependencies = Seq(
   // test
   scalatest,
 
@@ -23,6 +15,23 @@ lazy val dependencies = Seq(
 )
 
 
-lazy val agileEngine = Project(id = "crawler", base = file("crawler"))
-  .settings(settings: _*)
-  .settings(libraryDependencies ++= dependencies)
+lazy val crawler = Project(id = "crawler", base = file("crawler"))
+  .settings(Seq(
+    name := "crawler",
+    startYear := Some(2019),
+    organization := "AgileEngine.recruiting",
+    mainClass in assembly := Some("crawler.Main"),
+    assemblyJarName in assembly := "GMARCHINI-crawler.jar"
+  ))
+  .settings(libraryDependencies ++= crawlerDependencies)
+
+
+
+
+lazy val screening = Project(id = "screening", base = file("screening"))
+  .settings(Seq(
+    name := "screening",
+    startYear := Some(2019),
+    organization := "AgileEngine.recruiting"
+  ))
+  .settings(libraryDependencies += scalatest)

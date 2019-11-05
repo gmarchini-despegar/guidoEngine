@@ -10,7 +10,7 @@ class SequenceMultiplierTest
     new SequenceMultiplier()
 
   "recruit assumptions" should behave like {
-    "given an empty list" should "return an empty list" in {
+    "given an empty sequence" should "return an empty sequence" in {
       // arrange
       val toProcess: Seq[Int] =
         Seq()
@@ -23,7 +23,7 @@ class SequenceMultiplierTest
       result shouldBe 'empty
     }
 
-    "given a single list" should "return a list with 1" in {
+    "given a single element sequence" should "return a sequence with 1" in {
       // arrange
       val toProcess: Seq[Int] =
         Seq(10)
