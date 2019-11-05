@@ -38,7 +38,7 @@ class CrawlerTest
       crawler.findOkButton("html-original.html", "html-case_1.html")
 
     // assert
-    result shouldEqual "html > body > div > div > div > div > div > div"
+    result shouldEqual "html > body > div > div > div[2] > div[0] > div > div[1] > a[1]"
   }
 
   it should "find the ok button - case 2" in {
@@ -55,7 +55,7 @@ class CrawlerTest
       crawler.findOkButton("html-original.html", "html-case_2.html")
 
     // assert
-    result shouldEqual "html > body > div > div > div > div > div > div > div"
+    result shouldEqual "html > body > div > div > div[2] > div[0] > div > div[1] > div > a"
   }
 
   it should "find the ok button - case 3" in {
@@ -72,7 +72,7 @@ class CrawlerTest
       crawler.findOkButton("html-original.html", "html-case_3.html")
 
     // assert
-    result shouldEqual "html > body > div > div > div > div > div > div"
+    result shouldEqual "html > body > div > div > div[2] > div[0] > div > div[2] > a"
   }
 
   it should "find the ok button - case 4" in {
@@ -89,6 +89,6 @@ class CrawlerTest
       crawler.findOkButton("html-original.html", "html-case_4.html")
 
     // assert
-    result shouldEqual "html > body > div > div > div > div > div > div"
+    result shouldEqual "html > body > div > div > div[2] > div[0] > div > div[2] > a"
   }
 }
